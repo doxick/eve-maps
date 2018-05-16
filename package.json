@@ -1,0 +1,149 @@
+{
+  "name": "evemap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "env-cmd ./.env frontend-scripts build",
+    "watch": "npm-run-all --parallel watch:build watch:serve",
+    "watch:build": "env-cmd ./.env frontend-scripts watch",
+    "watch:serve": "env-cmd ./.env nodemon --ignore client/ --ignore dist/ --watch server server",
+    "serve": "env-cmd ./.env node server/index.clustered.js",
+    "release": "env-cmd ./.env frontend-scripts release",
+    "lint": "eslint 'client/app/**/*.js'",
+    "lint-fix": "eslint 'client/app/**/*.js' --fix",
+    "precommit": "lint-staged"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "axios-cache-adapter": "^2.0.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "classnames": "^2.2.5",
+    "env-cmd": "^7.0.0",
+    "express": "^4.16.3",
+    "express-react-views": "^0.10.5",
+    "frontend-scripts": "git+https://gitlab.techtribe.nl/touchtribe-public/frontend-scripts.git",
+    "history": "^4.7.2",
+    "hoist-non-react-statics": "^2.5.0",
+    "immutable": "^3.8.2",
+    "moment": "^2.22.1",
+    "morgan": "^1.9.0",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-helpers": "git+https://gitlab.techtribe.nl/touchtribe-public/redux-helpers.git",
+    "redux-immutable": "^4.0.0",
+    "redux-router": "git+https://gitlab.techtribe.nl/touchtribe-public/redux-router.git",
+    "redux-saga": "^0.16.0",
+    "regenerator-runtime": "^0.11.1",
+    "reselect": "^3.0.1",
+    "uniqid": "^4.1.1",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-config-standard-react": "^6.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0",
+    "nodemon": "^1.17.3",
+    "npm-run-all": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "extends": [
+      "standard",
+      "standard-react"
+    ],
+    "rules": {
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ]
+    }
+  },
+  "lint-staged": {
+    "client/app/**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "frontend": {
+    "sourcePath": "./client",
+    "buildPath": "./dist",
+    "tasks": [
+      [
+        "javascript",
+        {
+          "source": "assets/js/main.js",
+          "dest": "assets/js",
+          "filename": "main.js",
+          "browserify": {
+            "transform": {
+              "babelify": {
+                "presets": [
+                  "react"
+                ],
+                "plugins": [
+                  "transform-regenerator",
+                  [
+                    "module-resolver",
+                    {
+                      "root": [
+                        "./client/app"
+                      ],
+                      "alias": {
+                        "app": "./client/app",
+                        "server": "./server"
+                      }
+                    }
+                  ]
+                ]
+              },
+              "envify": {}
+            }
+          }
+        }
+      ],
+      [
+        "css",
+        {
+          "source": "assets/sass/style.scss",
+          "dest": "assets/css",
+          "filename": "style.css",
+          "sass": true,
+          "less": false,
+          "autoprefixer": {
+            "browsers": [
+              "IE >= 10"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}

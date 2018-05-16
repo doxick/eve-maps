@@ -9,27 +9,27 @@ export default (history, patterns) => (store) => {
 
   return (next) => (action) => {
     switch (action.type) {
-      case Router.push.toString():
+      case String(Router.push):
         history.push(action.payload)
         afterNavigate()
         break
-      case Router.replace.toString():
+      case String(Router.replace):
         history.replace(action.payload)
         afterNavigate()
         break
-      case Router.go.toString():
+      case String(Router.go):
         history.go(action.payload)
         afterNavigate()
         break
-      case Router.back.toString():
+      case String(Router.back):
         history.goBack()
         afterNavigate()
         break
-      case Router.forward.toString():
+      case String(Router.forward):
         history.goForward()
         afterNavigate()
         break
-      case Router.initializeLocation.toString():
+      case String(Router.initializeLocation):
         history.replace(Url.format(action.location))
         afterNavigate()
         break

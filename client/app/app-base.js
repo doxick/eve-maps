@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import {Provider} from 'react-redux'
 import PropTypes from 'prop-types'
-import Routes from 'app/routes'
-import ModalManager from 'app/components/modal-manager'
+import Routes from 'app/routes/routes'
 
 class AppBase extends Component {
   static propTypes = {
@@ -14,7 +13,6 @@ class AppBase extends Component {
     return (
       <Provider store={store}>
         <React.Fragment>
-          <ModalManager />
           <Routes />
         </React.Fragment>
       </Provider>
