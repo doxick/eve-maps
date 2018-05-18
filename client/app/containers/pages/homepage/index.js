@@ -54,12 +54,44 @@ class Homepage extends React.Component {
           />
         </Page.Sidebar>
         <Page.Body>
-          <ConnectedMap
-            region_id={region_id}
-            constellation_id={constellation_id}
-            system_id={system_id}
-            onClickSystem={this.onClickSystem}
-          />
+          <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
+            <div style={{minWidth: '50%', flex: 1}}>
+              <h6>Geminate</h6>
+              <ConnectedMap
+                region_id={10000029}
+                constellation_id={constellation_id}
+                system_id={system_id}
+                onClickSystem={this.onClickSystem}
+              />
+            </div>
+            <div style={{minWidth: '50%', flex: 1}}>
+              <h6>Vale of the silent</h6>
+              <ConnectedMap
+                region_id={10000003}
+                constellation_id={constellation_id}
+                system_id={system_id}
+                onClickSystem={this.onClickSystem}
+              />
+            </div>
+            <div style={{minWidth: '50%', flex: 1}}>
+              <h6>The forge</h6>
+              <ConnectedMap
+                region_id={10000002}
+                constellation_id={constellation_id}
+                system_id={system_id}
+                onClickSystem={this.onClickSystem}
+              />
+            </div>
+            <div style={{minWidth: '50%', flex: 1}}>
+              <h6>The kalevala expanse</h6>
+              <ConnectedMap
+                region_id={10000034}
+                constellation_id={constellation_id}
+                system_id={system_id}
+                onClickSystem={this.onClickSystem}
+              />
+            </div>
+          </div>
         </Page.Body>
       </Page>
     )
