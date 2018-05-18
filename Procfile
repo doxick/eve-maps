@@ -1,1 +1,1 @@
-npm serve
+yarn serve
