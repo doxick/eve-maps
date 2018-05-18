@@ -2,9 +2,9 @@ import { combineReducers } from 'redux-immutable'
 import { routerReducer as Router } from 'redux-router'
 
 import Constellations from './consellations'
-import Systems from './Systems'
-import Regions from './Regions'
-import Maps from './Maps'
+import Systems from './systems'
+import Regions from './regions'
+import Maps from './maps'
 
 export default function createReducer () {
   return combineReducers({
