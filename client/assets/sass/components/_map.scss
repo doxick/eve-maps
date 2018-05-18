@@ -1,0 +1,29 @@
+.c-map {
+  position: relative;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100% / ( 1027 / 768 );
+  }
+}
+.c-map__gates {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+.c-map__gate {
+  stroke: $color-black;
+  stroke-width: 1;
+}
+.c-map__systems {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.c-map__system {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s ease-in-out;
+}

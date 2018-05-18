@@ -1,0 +1,14 @@
+.c-page {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+  flex-direction: row;
+}
+.c-page__sidebar {
+  width: 20rem;
+  padding: 1rem;
+}
+.c-page__body {
+  padding: 1rem;
+  flex: 1;
+}
