@@ -12,13 +12,15 @@
   transition: all 0.5s ease-in-out;
   text-align: center;
 
-  &--external {
+  &.is-external {
     border-radius: 0;
     background: $color-gray--light;
   }
-
   &.is-active {
     border-color: $color-black;
     box-shadow: 0 0 0.2rem 0.2rem $color-gray;
+  }
+  &.is-selected {
+    box-shadow: 0 0 0.2rem 0.2rem $color-blue;
   }
 }

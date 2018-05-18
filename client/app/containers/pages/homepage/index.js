@@ -6,8 +6,7 @@ import {
   withRegions,
   withMaps,
   withConstellation,
-  withConstellations,
-  withRouteParams
+  withConstellations
 } from 'app/containers/utility'
 import { compose } from 'redux'
 import Page from 'app/components/page'
@@ -15,15 +14,8 @@ import Page from 'app/components/page'
 class Homepage extends React.Component {
   state = {
     region_id: 10000029,
-    constellation_id: undefined
-  }
-
-  static getDerivedStateFromProps ({ region_id, constellation_id, system_id }, prevState) {
-    return {
-      ...prevState,
-      region_id: Number(region_id),
-      constellation_id: Number(constellation_id)
-    }
+    constellation_id: undefined,
+    system_id: undefined
   }
 
   onChangeRegion = ({ target }) => {
@@ -36,9 +28,16 @@ class Homepage extends React.Component {
       constellation_id: Number(target.value)
     })
   }
+  onClickSystem = (system) => {
+    this.setState({
+      region_id: system.get('region_id'),
+      constellation_id: system.get('constellation_id'),
+      system_id: system.get('system_id')
+    })
+  }
 
   render () {
-    const { region_id, constellation_id } = this.state
+    const { region_id, constellation_id, system_id } = this.state
     return (
       <Page>
         <Page.Sidebar>
@@ -55,14 +54,19 @@ class Homepage extends React.Component {
           />
         </Page.Sidebar>
         <Page.Body>
-          <ConnectedMap region_id={region_id} constellation_id={constellation_id} />
+          <ConnectedMap
+            region_id={region_id}
+            constellation_id={constellation_id}
+            system_id={system_id}
+            onClickSystem={this.onClickSystem}
+          />
         </Page.Body>
       </Page>
     )
   }
 }
 
-export default withRouteParams(Homepage)
+export default Homepage
 
 const ConnectedMap = compose(withMap, withRegion, withConstellation)(Map)
 

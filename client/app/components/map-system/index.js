@@ -3,56 +3,48 @@ import PropTypes from 'prop-types'
 import Immutable from 'immutable'
 import Classnames from 'classnames'
 import Maybe from 'app/utils/maybe'
-import { WithSystem, WithConstellation } from 'app/containers/utility'
-import { Link } from 'redux-router'
-import * as Patterns from 'app/routes/patterns'
+import { withSystem } from 'app/containers/utility'
 
 class MapSystem extends React.Component {
   static propTypes = {
     system: PropTypes.instanceOf(Immutable.Map),
-    region: PropTypes.instanceOf(Immutable.Map),
-    isActive: PropTypes.bool
+    region_id: PropTypes.number,
+    isActive: PropTypes.bool,
+    isSelected: PropTypes.bool,
+    onClick: PropTypes.func
   }
   state = {}
 
   static getDerivedStateFromProps ({ system, region }, prevState) {
     return {
       ...prevState,
-      system: Maybe(system),
-      region: Maybe(region)
+      system: Maybe(system)
     }
   }
 
+  onClick = (event) => {
+    event.preventDefault()
+    const { onClick, system } = this.props
+    onClick && onClick(system)
+  }
+
   render () {
-    let { system, region } = this.state
-    let { isActive } = this.props
-    let isExternal = !system.bind(s => region.bind(r => r.get('constellations').includes(s.get('constellation_id'))))
-    return system.bind(system => (
-      <WithSystem
-        system_id={system.get('system_id')}
-        render={({ system }) => Maybe(system).bind(system =>
-          <WithConstellation
-            constellation_id={system.get('constellation_id')}
-            render={({ constellation }) => Maybe(constellation).bind(constellation =>
-              <Link
-                href={Patterns.Homepage}
-                query={{
-                  region_id: constellation.get('region_id'),
-                  constellation_id: constellation.get('constellation_id')
-                }}
-                className={Classnames('c-map-system', {
-                  'c-map-system--external': isExternal,
-                  'is-active': isActive
-                })}
-              >
-                <h6 className="c-map-system__title">{system.get('name')}</h6>
-              </Link>
-            )}
-          />
-        )}
-      />
-    ))
+    let { system } = this.state
+    let { isActive, isSelected, region_id } = this.props
+
+    return system.bind(system => {
+      const className = Classnames('c-map-system', {
+        'is-external': system.get('region_id') !== region_id,
+        'is-active': isActive,
+        'is-selected': isSelected
+      })
+      return (
+        <div className={className} onClick={this.onClick}>
+          <h6 className="c-map-system__title">{system.get('name')}</h6>
+        </div>
+      )
+    })
   }
 }
 
-export default MapSystem
+export default withSystem(MapSystem)

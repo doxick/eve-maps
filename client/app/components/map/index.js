@@ -10,7 +10,9 @@ class Map extends React.Component {
   static propTypes = {
     map: PropTypes.instanceOf(Immutable.Map),
     region: PropTypes.instanceOf(Immutable.Map),
-    constellation: PropTypes.instanceOf(Immutable.Map)
+    constellation: PropTypes.instanceOf(Immutable.Map),
+    system_id: PropTypes.number,
+    onClickSystem: PropTypes.func
   }
   state = {}
 
@@ -19,8 +21,14 @@ class Map extends React.Component {
       ...prevState,
       map: Maybe(map),
       region: Maybe(region),
-      constellation: Maybe(constellation)
+      constellation: Maybe(constellation),
+      activeSystems: Maybe(constellation).map(constellation => constellation.get('systems'))
     }
+  }
+
+  onClickSystem = (system) => {
+    const {onClickSystem} = this.props
+    onClickSystem && onClickSystem(system)
   }
 
   render () {
@@ -39,8 +47,8 @@ class Map extends React.Component {
     let x = system.get('x') / 10.24
     let y = system.get('y') / 7.68
     let system_id = system.get('system_id')
-    let { region, constellation } = this.state
-    let isActive = constellation.bind(constellation => constellation.get('systems').includes(system_id))
+    let { region, activeSystems } = this.state
+    let isActive = Boolean(activeSystems.bind(systems => systems.includes(system_id)))
     let region_id = region.bind(region => region.get('region_id'))
     return (
       <div key={`system-${system_id}`} className="c-map__system" style={{ left: `${x}%`, top: `${y}%` }}>
@@ -48,6 +56,8 @@ class Map extends React.Component {
           system_id={system_id}
           region_id={region_id}
           isActive={isActive}
+          isSelected={system_id === this.props.system_id}
+          onClick={this.onClickSystem}
         />
       </div>
     )
