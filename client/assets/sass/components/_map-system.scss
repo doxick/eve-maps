@@ -1,13 +1,12 @@
 .c-map-system {
-  width: 5rem;
-  height: 2.2rem;
+  width: var(--map-system-width, 5rem);
+  height: var(--msp-system-height, 2.2rem);
   border-radius: 1.1rem;
   border: 1px solid $color-gray--light;
   display: flex;
   justify-content: center;
   align-items: center;
   background: $color-white;
-  font-size: 1.2rem;
 
   transition: all 0.5s ease-in-out;
   text-align: center;
@@ -23,4 +22,8 @@
   &.is-selected {
     box-shadow: 0 0 0.2rem 0.2rem $color-blue;
   }
+}
+
+.c-map-system__title {
+  font-size: var(--map-system-font-size, 1rem);
 }

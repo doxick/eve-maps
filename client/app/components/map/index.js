@@ -5,6 +5,7 @@ import Maybe from 'app/utils/maybe'
 import { withRegion, withSystem } from 'app/containers/utility'
 import MapSystem from 'app/components/map-system'
 import { compose } from 'redux'
+import Classnames from 'classnames'
 
 class Map extends React.Component {
   static propTypes = {
@@ -12,7 +13,13 @@ class Map extends React.Component {
     region: PropTypes.instanceOf(Immutable.Map),
     constellation: PropTypes.instanceOf(Immutable.Map),
     system_id: PropTypes.number,
-    onClickSystem: PropTypes.func
+    onClickSystem: PropTypes.func,
+    systemComponent: PropTypes.func,
+
+    isSmall: PropTypes.bool
+  }
+  static defaultProps = {
+    systemComponent: compose(withRegion, withSystem)(MapSystem)
   }
   state = {}
 
@@ -33,8 +40,9 @@ class Map extends React.Component {
 
   render () {
     let { map } = this.state
+    let { isSmall } = this.props
     return map.bind(map => (
-      <div className="c-map">
+      <div className={Classnames('c-map', isSmall && 'c-map--small')}>
         {map.get('systems').toArray().map(this.renderSystem)}
         <svg viewBox="0 0 1024 768" className="c-map__gates">
           {map.get('gates').toArray().map(this.renderGate)}
@@ -50,14 +58,16 @@ class Map extends React.Component {
     let { region, activeSystems } = this.state
     let isActive = Boolean(activeSystems.bind(systems => systems.includes(system_id)))
     let region_id = region.bind(region => region.get('region_id'))
+    let SystemComponent = this.props.systemComponent
     return (
       <div key={`system-${system_id}`} className="c-map__system" style={{ left: `${x}%`, top: `${y}%` }}>
-        <ConnectedMapSystem
+        <SystemComponent
           system_id={system_id}
           region_id={region_id}
           isActive={isActive}
           isSelected={system_id === this.props.system_id}
           onClick={this.onClickSystem}
+          className="testing"
         />
       </div>
     )
@@ -83,5 +93,3 @@ class Map extends React.Component {
 }
 
 export default Map
-
-const ConnectedMapSystem = compose(withRegion, withSystem)(MapSystem)

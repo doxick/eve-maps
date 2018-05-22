@@ -11,7 +11,9 @@ class MapSystem extends React.Component {
     region_id: PropTypes.number,
     isActive: PropTypes.bool,
     isSelected: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    children: PropTypes.node,
+    className: PropTypes.string
   }
   state = {}
 
@@ -30,17 +32,18 @@ class MapSystem extends React.Component {
 
   render () {
     let { system } = this.state
-    let { isActive, isSelected, region_id } = this.props
+    let { isActive, isSelected, region_id, children, ...props } = this.props
 
     return system.bind(system => {
       const className = Classnames('c-map-system', {
         'is-external': system.get('region_id') !== region_id,
         'is-active': isActive,
         'is-selected': isSelected
-      })
+      }, props.className)
       return (
         <div className={className} onClick={this.onClick}>
           <h6 className="c-map-system__title">{system.get('name')}</h6>
+          {children}
         </div>
       )
     })

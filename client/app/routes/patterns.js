@@ -1,3 +1,4 @@
 import { createPattern } from 'redux-router'
 
-export const Homepage = createPattern('/(:region_id(/:constellation_id(/:system_id)))')
+export const Homepage = createPattern('/')
+export const MultiMap = createPattern('/multi-map')

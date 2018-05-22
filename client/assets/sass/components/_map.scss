@@ -5,6 +5,11 @@
     display: block;
     padding-top: 100% / ( 1027 / 768 );
   }
+  &--small {
+    --map-system-font-size: 0.7rem;
+    --map-system-width: 3rem;
+    --map-system-height: 1.5rem;
+  }
 }
 .c-map__gates {
   position: absolute;
