@@ -1,63 +1,50 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import Immutable from 'immutable'
+import Maybe from 'app/utils/maybe'
 import { Map } from 'app/components'
 import {
   withMap,
   withRegion,
-  withConstellation
+  withConstellation,
+  WithRegion,
+  withLocation
 } from 'app/containers/utility'
 import { compose } from 'redux'
 import Page from 'app/components/page'
-import RegionSelect from 'app/components/region-select'
-import ConstellationSelect from 'app/components/constellation-select'
 
 class Homepage extends React.Component {
-  state = {
-    region_id: 10000029,
-    constellation_id: undefined,
-    system_id: undefined
-  }
-
-  onChangeRegion = ({ target }) => {
-    this.setState({
-      region_id: Number(target.value)
-    })
-  }
-  onChangeConstellation = ({ target }) => {
-    this.setState({
-      constellation_id: Number(target.value)
-    })
-  }
-  onClickSystem = (system) => {
-    this.setState({
-      region_id: system.get('region_id'),
-      constellation_id: system.get('constellation_id'),
-      system_id: system.get('system_id')
-    })
+  static propTypes = {
+    location: PropTypes.instanceOf(Immutable.Map),
+    hasRadar: PropTypes.bool,
+    doStartRadar: PropTypes.func,
+    doStopRadar: PropTypes.func
   }
 
   render () {
-    const { region_id, constellation_id, system_id } = this.state
+    const prop = propName => v => v.get(propName)
+    let location = Maybe(this.props.location)
+    let region_id = location.bind(prop('region_id'))
+    let constellation_id = location.bind(prop('constellation_id'))
+    let system_id = location.bind(prop('system_id'))
+
     return (
       <Page>
         <Page.Sidebar>
-          <h4>Region</h4>
-          <RegionSelect
-            onChange={this.onChangeRegion}
-            value={region_id}
-          />
-          <h5>Constellation</h5>
-          <ConstellationSelect
-            onChange={this.onChangeConstellation}
-            value={constellation_id}
-            region_id={region_id}
-          />
+          {!this.props.hasRadar
+            ? <button className="btn btn-primary" onClick={this.props.doStartRadar}>Start radar</button>
+            : <button className="btn btn-primary" onClick={this.props.doStopRadar}>Stop radar</button>
+          }
         </Page.Sidebar>
         <Page.Body>
+          <WithRegion
+            region_id={region_id}
+            render={({region}) => <h4>{Maybe(region).bind(prop('name'))}</h4>}
+          />
           <ConnectedMap
             region_id={region_id}
             constellation_id={constellation_id}
             system_id={system_id}
-            onClickSystem={this.onClickSystem}
           />
         </Page.Body>
       </Page>
@@ -65,6 +52,10 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage
+export default withLocation(Homepage)
 
-const ConnectedMap = compose(withMap, withRegion, withConstellation)(Map)
+const ConnectedMap = compose(
+  withMap,
+  withRegion,
+  withConstellation
+)(Map)

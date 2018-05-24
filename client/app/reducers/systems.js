@@ -3,11 +3,14 @@ import Immutable from 'immutable'
 import * as Actions from 'app/actions'
 
 const initialState = Immutable.Map({
-  systems: Immutable.List()
+  systems: Immutable.Map()
 })
 
 const onFetchSuccess = (state, { systems }) =>
-  state.set('systems', Immutable.fromJS(systems))
+  state.set('systems', Immutable.Map(systems.map(system => ([
+    system.system_id,
+    Immutable.fromJS(system)
+  ]))))
 
 export default createReducer('systems', {
   [Actions.Data.fetchSystemsSuccess]: onFetchSuccess

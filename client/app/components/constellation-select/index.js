@@ -6,7 +6,7 @@ import Maybe from 'app/utils/maybe'
 
 class ConstellationSelect extends React.Component {
   static propTypes = {
-    constellations: PropTypes.instanceOf(Immutable.List),
+    constellations: PropTypes.instanceOf(Immutable.Map),
     onChange: PropTypes.func,
     region_id: PropTypes.number,
     name: PropTypes.string,

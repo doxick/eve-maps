@@ -1,0 +1,17 @@
+.c-navigation {
+
+}
+
+.c-navigation-character {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.c-navigation-character__name {
+  color: $color-white;
+  margin-right: 0.5rem;
+}
+.c-navigation-character__portrait {
+  max-height: 3.2rem;
+}

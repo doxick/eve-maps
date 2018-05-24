@@ -17,7 +17,7 @@ export default function * dataSaga () {
 function * onFetchConstellations () {
   yield put(Actions.Data.fetchConstellationsRequest())
   try {
-    let { data } = yield call(Api.fetchConstellations)
+    let { data } = yield call(Api.Constellations.fetch)
     yield put(Actions.Data.fetchConstellationsSuccess(data.items))
   } catch (error) {
     yield put(Actions.Data.fetchConstellationsFail(error))
@@ -27,7 +27,7 @@ function * onFetchConstellations () {
 function * onFetchSystems () {
   yield put(Actions.Data.fetchSystemsRequest())
   try {
-    let { data } = yield call(Api.fetchSystems)
+    let { data } = yield call(Api.Systems.fetch)
     yield put(Actions.Data.fetchSystemsSuccess(data.items))
   } catch (error) {
     yield put(Actions.Data.fetchSystemsFail(error))
@@ -37,7 +37,7 @@ function * onFetchSystems () {
 function * onFetchRegions () {
   yield put(Actions.Data.fetchRegionsRequest())
   try {
-    let { data } = yield call(Api.fetchRegions)
+    let { data } = yield call(Api.Regions.fetch)
     yield put(Actions.Data.fetchRegionsSuccess(data.items))
   } catch (error) {
     yield put(Actions.Data.fetchRegionsFail(error))
@@ -47,7 +47,7 @@ function * onFetchRegions () {
 function * onFetchMaps () {
   yield put(Actions.Data.fetchMapsRequest())
   try {
-    let { data } = yield call(Api.fetchMaps)
+    let { data } = yield call(Api.Maps.fetch)
     yield put(Actions.Data.fetchMapsSuccess(data.items))
   } catch (error) {
     yield put(Actions.Data.fetchMapsFail(error))

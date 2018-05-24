@@ -10,7 +10,7 @@ import RootController from './controllers'
 
 const app = Express()
 
-app.set('port', process.env.PORT || 3002)
+app.set('port', process.env.PORT || 3000)
 app.set('trust proxy', 'loopback')
 
 /* Predefined directories */

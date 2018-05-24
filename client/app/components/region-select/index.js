@@ -7,8 +7,8 @@ import Maybe from 'app/utils/maybe'
 
 class RegionSelect extends React.Component {
   static propTypes = {
-    maps: PropTypes.instanceOf(Immutable.List),
-    regions: PropTypes.instanceOf(Immutable.List),
+    maps: PropTypes.instanceOf(Immutable.Map),
+    regions: PropTypes.instanceOf(Immutable.Map),
     onChange: PropTypes.func,
     name: PropTypes.string,
     label: PropTypes.string,
@@ -23,7 +23,7 @@ class RegionSelect extends React.Component {
       ...prevState,
       regions: Maybe(regions)
         .map(regions => maps
-          ? regions.filter(region => maps.find(map => map.get('region_id') === region.get('region_id')))
+          ? regions.filter(region => maps.has(region.get('region_id')))
           : regions
         ).map(regions => regions.sortBy(region => region.get('name')).toArray())
     }

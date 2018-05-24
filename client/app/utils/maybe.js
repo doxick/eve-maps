@@ -44,5 +44,7 @@ Maybe.prototype.bind = function (fn = (value => value)) {
 Maybe.prototype.val = function () {
   return this.__value
 }
-
+Maybe.prototype.error = function () {
+  return this.__error
+}
 export default Maybe
